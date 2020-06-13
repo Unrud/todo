@@ -1,0 +1,91 @@
+html, body {
+    margin: 0;
+    font-family: sans-serif;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+body, .editor {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.mode-edit main {
+    overflow: hidden;
+}
+
+main p {
+    margin: 0;
+    padding: 10px 5px;
+    border-bottom: 1px black solid;
+    cursor: pointer;
+}
+
+main p.done {
+    color: gray;
+    text-decoration: line-through;
+    order: 1;
+}
+
+header {
+    padding: 5px;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    background: black;
+    color: white;
+}
+
+header > * + * {
+    margin-left: 5px;
+}
+
+header > *:first-child {
+    flex: 1;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: bolder;
+}
+
+button {
+    background: inherit;
+    color: inherit;
+    border: solid gray 1px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 1.5em;
+    box-sizing: border-box;
+}
+
+.editor {
+    transform: translate(100vw);
+    transition: transform ease .2s;
+}
+
+.mode-edit .editor {
+    transform: translate(0);
+}
+
+textarea {
+    border: none;
+    resize: none;
+    flex: 1;
+    padding: 5px;
+}
