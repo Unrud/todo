@@ -1,11 +1,12 @@
 // Files to cache
-var cacheName = "todo1";
+var cacheName = "todo2";
 var contentToCache = [
   ".",
   "fn.js",
   "icon.png",
   "index.html",
-  "main.css"
+  "main.css",
+  "qrcode.js"
 ];
 
 // Delete old caches

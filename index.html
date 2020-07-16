@@ -5,10 +5,12 @@
 <meta name="theme-color" content="black">
 <title>To-do</title>
 <link href="main.css" media="screen" rel="stylesheet">
+<script src="qrcode.js"></script>
 <script src="fn.js"></script>
 
 <header>
     <h1>To-Do</h1>
+    <button data-name="share-open">Share</button>
     <button data-name="editor-open">Edit</button>
 </header>
 
@@ -21,6 +23,8 @@
     </header>
     <textarea data-name="editor-entry"></textarea>
 </div>
+
+<div class="share"></div>
 
 <div style="display: none" data-name="store">Example Task 1
 x Example Task 2

@@ -7,7 +7,7 @@ html, body {
     user-select: none;
 }
 
-body, .editor {
+body, .editor, .share {
     position: fixed;
     width: 100%;
     height: 100%;
@@ -24,7 +24,7 @@ main {
     flex-direction: column;
 }
 
-.mode-edit main {
+.mode-edit main, .mode-share main {
     overflow: hidden;
 }
 
@@ -74,12 +74,29 @@ button {
     box-sizing: border-box;
 }
 
-.editor {
+.share {
+    color: black;
+    background-color: white;
+}
+
+.share canvas {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 0.25in;
+    object-fit: contain;
+}
+
+.editor, .share {
     transform: translate(100%);
     transition: transform ease .2s;
 }
 
 .mode-edit .editor {
+    transform: translate(0);
+}
+
+.mode-share .share {
     transform: translate(0);
 }
 

@@ -6,6 +6,13 @@ window.addEventListener("load", () => {
     let taskListElement = document.querySelector("main");
     let editorEntryElement = document.querySelector("*[data-name=editor-entry]");
     let storeElement = document.querySelector("*[data-name=store]");
+    let shareElement = document.querySelector(".share");
+    let qrcode = new QRCode(shareElement, {
+        width: 1024,
+        height: 1024,
+        colorDark : window.getComputedStyle(shareElement).getPropertyValue("color"),
+        colorLight : window.getComputedStyle(shareElement).getPropertyValue("background-color")
+    });
 
     function onTaskElementClicked(event) {
         let tasksTextLines = getTasksText().split("\n");
@@ -62,13 +69,34 @@ window.addEventListener("load", () => {
     }
 
     function showEditor() {
-        document.documentElement.classList.add("mode-edit");
+        document.documentElement.classList.value = "mode-edit";
         editorEntryElement.value = getTasksText();
         editorEntryElement.focus();
     }
 
-    function hideEditor() {
-        document.documentElement.classList.remove("mode-edit");
+    function showShare() {
+        document.documentElement.classList.value = "mode-share";
+        document.documentElement.focus();
+        let success = false;
+        for (correctLevel of [QRCode.CorrectLevel.H, QRCode.CorrectLevel.Q, QRCode.CorrectLevel.M, QRCode.CorrectLevel.L]) {
+            try {
+                qrcode.makeCode(window.location.href, correctLevel);
+            } catch (error) {
+                console.error(error);
+                continue;
+            }
+            success = true;
+            break;
+        }
+        if (!success) {
+            qrcode.clear();
+            alert("To-do list too long for QR code!");
+            showMain();
+        }
+    }
+
+    function showMain() {
+        document.documentElement.classList.value = "";
         document.documentElement.focus();
     }
 
@@ -77,27 +105,34 @@ window.addEventListener("load", () => {
         showEditor();
     });
 
+    document.querySelector("*[data-name=share-open]").addEventListener("click", () => {
+        history.pushState("share", "", "#" + encodeURI(getTasksText()));
+        showShare();
+    });
+
     document.querySelector("*[data-name=editor-close]").addEventListener("click", () => {
         updateTasksText(editorEntryElement.value);
         history.replaceState("edit", "", "#" + encodeURI(getTasksText()));
         history.pushState("", "", "#" + encodeURI(getTasksText()));
-        hideEditor();
+        showMain();
     });
 
     window.onpopstate = () => {
         updateTasksText(decodeURI(location.hash.substring(1)));
         if (history.state === "edit") {
             showEditor();
+        } else if (history.state === "share") {
+            showShare();
         } else {
-            hideEditor();
+            showMain();
         }
     }
 
     editorEntryElement.value = "";
-    hideEditor();
+    showMain();
 
     if (history.state === null && location.hash.length === 0) {
-        history.replaceState("", "", "#" + encodeURI(storeElement.textContent));
+        history.replaceState("", "", "#" + encodeURI(getTasksText()));
     }
     window.onpopstate();
 });
