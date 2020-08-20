@@ -1,5 +1,5 @@
 // Files to cache
-var cacheName = "todo2";
+var cacheName = "todo3";
 var contentToCache = [
   ".",
   "fn.js",
